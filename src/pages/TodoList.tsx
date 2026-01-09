@@ -1,28 +1,52 @@
 import {
   IonContent,
   IonHeader,
-  IonItem,
-  IonLabel,
-  IonList,
   IonPage,
+  IonProgressBar,
+  IonSpinner,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
 import "./TodoList.css";
 import { Todo } from "../types/todo.type";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import TodoCard from "../components/TodoCard";
+import { fetchAllTodos, updateTodo } from "../api";
 
 const TodoList: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([
-    { id: 1, title: "Apprendre Ionic", done: false, create_at: new Date() },
-    { id: 2, title: "Créer une todolist", done: true, create_at: new Date() },
-  ]);
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const loadTodos = async () => {
+      try {
+        setLoading(true);
+        const res = await fetchAllTodos();
+        setTodos(res);
+      } catch (error) {
+        console.error("Loading faild > ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTodos();
+  }, []);
+
+  const toggleTodo = async (id: Todo["id"]) => {
+    const todoToUpdate = todos.find((t) => t.id === id);
+    if (todoToUpdate) {
+      await updateTodo({ ...todoToUpdate, done: !todoToUpdate.done });
+      const res = await fetchAllTodos(); 
+      setTodos(res);
+    }
+  };
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>TodoList</IonTitle>
+          <IonTitle>Tâches</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -31,9 +55,13 @@ const TodoList: React.FC = () => {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
-        {
-            todos.map((todo)=>)
-        }
+        {loading ? (
+          <IonProgressBar type="indeterminate" color="primary"></IonProgressBar>
+        ) : (
+          todos.map((todo) => (
+            <TodoCard key={todo.id} todo={todo} onToggle={toggleTodo} />
+          ))
+        )}
       </IonContent>
     </IonPage>
   );

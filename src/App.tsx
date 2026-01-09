@@ -10,10 +10,10 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
+import { ellipse, list } from 'ionicons/icons';
+
 import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+import TodoList from './pages/TodoList';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -44,7 +44,6 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import TodoList from './pages/TodoList';
 
 setupIonicReact();
 
@@ -65,7 +64,7 @@ const App: React.FC = () => (
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="todo-list" href="/todo-list">
-            <IonIcon aria-hidden="true" icon={triangle} />
+            <IonIcon aria-hidden="true" icon={list} />
             <IonLabel>Liste</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab2" href="/tab2">

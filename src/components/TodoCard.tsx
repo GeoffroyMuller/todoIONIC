@@ -1,20 +1,36 @@
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react';
-import { Todo } from '../types/todo.type';
-import './TodoCard.css';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonCheckbox,
+} from "@ionic/react";
+import { Todo } from "../types/todo.type";
+import "./TodoCard.css";
 
 interface TodoCardProps {
   todo: Todo;
+  onToggle: (id: Todo["id"]) => void;
 }
 
-const TodoCard: React.FC<TodoCardProps> = ({ todo }) => {
+const TodoCard: React.FC<TodoCardProps> = ({ todo, onToggle }) => {
   return (
-     <IonCard>
+    <IonCard>
       <IonCardHeader>
-        <IonCardTitle>{todo.title}</IonCardTitle>
-        <IonCardSubtitle>#{todo.id}</IonCardSubtitle>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between"  }}>
+          <IonCardTitle>
+            {todo.title}
+          </IonCardTitle>
+          <IonCheckbox
+            checked={todo.done}
+            onIonChange={() => onToggle(todo.id)}
+          ></IonCheckbox>
+        </div>
       </IonCardHeader>
 
-      <IonCardContent>Testtt</IonCardContent>
+      {todo.description ? (
+        <IonCardContent>{todo.description}</IonCardContent>
+      ) : undefined}
     </IonCard>
   );
 };
