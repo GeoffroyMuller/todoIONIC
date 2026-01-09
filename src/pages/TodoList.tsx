@@ -7,39 +7,11 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import "./TodoList.css";
-import { Todo } from "../types/todo.type";
-import { useEffect, useState } from "react";
 import TodoCard from "../components/TodoCard";
-import { fetchAllTodos, updateTodo } from "../api";
+import { useTodos } from "../composables/useTodos";
 
 const TodoList: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    const loadTodos = async () => {
-      try {
-        setLoading(true);
-        const res = await fetchAllTodos();
-        setTodos(res);
-      } catch (error) {
-        console.error("Loading faild > ", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadTodos();
-  }, []);
-
-  const toggleTodo = async (id: Todo["id"]) => {
-    const todoToUpdate = todos.find((t) => t.id === id);
-    if (todoToUpdate) {
-      await updateTodo({ ...todoToUpdate, done: !todoToUpdate.done });
-      const res = await fetchAllTodos(); 
-      setTodos(res);
-    }
-  };
+  const { todos, loading, toggleTodo } = useTodos();
 
   return (
     <IonPage>
