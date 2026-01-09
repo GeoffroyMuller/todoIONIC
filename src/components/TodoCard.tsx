@@ -4,27 +4,49 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonCheckbox,
+  IonSpinner,
 } from "@ionic/react";
 import { Todo } from "../types/todo.type";
 import "./TodoCard.css";
+import { useState } from "react";
 
 interface TodoCardProps {
   todo: Todo;
-  onToggle: (id: Todo["id"]) => void;
+  onToggle: (id: Todo["id"]) => Promise<void>;
 }
 
 const TodoCard: React.FC<TodoCardProps> = ({ todo, onToggle }) => {
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const executeToggle = async (id: Todo["id"]) => {
+    setLoading(true);
+    await onToggle(id);
+    setLoading(false);
+  };
+
   return (
     <IonCard>
       <IonCardHeader>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between"  }}>
-          <IonCardTitle>
-            {todo.title}
-          </IonCardTitle>
-          <IonCheckbox
-            checked={todo.done}
-            onIonChange={() => onToggle(todo.id)}
-          ></IonCheckbox>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <IonCardTitle>{todo.title}</IonCardTitle>
+          <div style={{
+            height: "32px",
+          }}>
+            {loading ? (
+              <IonSpinner name="dots"></IonSpinner>
+            ) : (
+              <IonCheckbox
+                checked={todo.done}
+                onIonChange={() => executeToggle(todo.id)}
+              ></IonCheckbox>
+            )}
+          </div>
         </div>
       </IonCardHeader>
 

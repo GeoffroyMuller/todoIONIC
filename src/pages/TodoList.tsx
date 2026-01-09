@@ -3,7 +3,6 @@ import {
   IonHeader,
   IonPage,
   IonProgressBar,
-  IonSpinner,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
