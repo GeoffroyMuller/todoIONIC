@@ -60,7 +60,7 @@ const TodoList: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Tâches</IonTitle>
+          <IonTitle>Mes tâches</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen className="ion-padding-bottom ion-margin-bottom">
@@ -76,6 +76,7 @@ const TodoList: React.FC = () => {
             />
           ))
         )}
+        <div style={{height: "60px", width: "100%"}}></div>
         <IonFab vertical="bottom" horizontal="end" slot="fixed">
           <IonFabButton onClick={() => openModal()}>
             <IonIcon icon={add} />
