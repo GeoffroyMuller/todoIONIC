@@ -18,14 +18,20 @@ import TodoModal from "../components/TodoModal";
 import { OverlayEventDetail } from "@ionic/core/components";
 import { Todo } from "../types/todo.type";
 import { add } from "ionicons/icons";
+import { useState } from "react";
 
 const TodoList: React.FC = () => {
-  const { todos, loading, toggleTodo, addNewTodo } = useTodos();
+  const { todos, loading, toggleTodo, addNewTodo, editTodo } = useTodos();
+  const [activeTodo, setActiveTodo] = useState<Todo | null>(null);
+
   const [present, dismiss] = useIonModal(TodoModal, {
+    todo: activeTodo,
     onDismiss: (data: string, role: string) => dismiss(data, role),
   });
 
-  function openModal() {
+  function openModal(todo?: Todo) {
+    if (todo) setActiveTodo(todo);
+
     present({
       onWillDismiss: (
         event: CustomEvent<
@@ -33,11 +39,17 @@ const TodoList: React.FC = () => {
         >
       ) => {
         if (event.detail.role === "confirm") {
-          addNewTodo(
-            event.detail.data?.title ?? "Sans titre",
-            event.detail.data?.description
-          );
+          if (todo) {
+            const updatedTodo = { ...todo, ...event.detail.data };
+            editTodo(updatedTodo);
+          } else {
+            addNewTodo(
+              event.detail.data?.title ?? "Sans titre",
+              event.detail.data?.description
+            );
+          }
         }
+        setActiveTodo(null);
       },
     });
   }
@@ -54,11 +66,16 @@ const TodoList: React.FC = () => {
           <IonProgressBar type="indeterminate" color="primary"></IonProgressBar>
         ) : (
           todos.map((todo) => (
-            <TodoCard key={todo.id} todo={todo} onToggle={toggleTodo} />
+            <TodoCard
+              key={todo.id}
+              todo={todo}
+              onToggle={toggleTodo}
+              onEdit={() => openModal(todo)}
+            />
           ))
         )}
         <IonFab vertical="bottom" horizontal="end" slot="fixed">
-          <IonFabButton onClick={openModal}>
+          <IonFabButton onClick={() => openModal()}>
             <IonIcon icon={add} />
           </IonFabButton>
         </IonFab>

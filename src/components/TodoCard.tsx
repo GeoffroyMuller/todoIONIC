@@ -13,9 +13,10 @@ import { useState } from "react";
 interface TodoCardProps {
   todo: Todo;
   onToggle: (id: Todo["id"]) => Promise<void>;
+  onEdit: (id: Todo["id"]) => void;
 }
 
-const TodoCard: React.FC<TodoCardProps> = ({ todo, onToggle }) => {
+const TodoCard: React.FC<TodoCardProps> = ({ todo, onToggle, onEdit }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const executeToggle = async (id: Todo["id"]) => {
@@ -25,7 +26,7 @@ const TodoCard: React.FC<TodoCardProps> = ({ todo, onToggle }) => {
   };
 
   return (
-    <IonCard>
+    <IonCard onClick={() => onEdit(todo.id)}>
       <IonCardHeader>
         <div
           style={{
@@ -34,10 +35,13 @@ const TodoCard: React.FC<TodoCardProps> = ({ todo, onToggle }) => {
             justifyContent: "space-between",
           }}
         >
-          <IonCardTitle>{todo.title}</IonCardTitle>
-          <div style={{
-            height: "32px",
-          }}>
+          <IonCardTitle>{todo.id} {todo.title}</IonCardTitle>
+          <div
+            style={{
+              height: "32px",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
             {loading ? (
               <IonSpinner name="dots"></IonSpinner>
             ) : (

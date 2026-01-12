@@ -8,14 +8,16 @@ import {
   IonTextarea,
 } from "@ionic/react";
 import { useState } from "react";
+import { Todo } from "../types/todo.type";
 
 interface TodoFormProps {
+  todo?: Todo;
   onSubmit: (title: string, description?: string) => void;
 }
 
-const TodoForm: React.FC<TodoFormProps> = ({ onSubmit }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+const TodoForm: React.FC<TodoFormProps> = ({ todo, onSubmit }) => {
+  const [title, setTitle] = useState(todo ? todo.title : "");
+  const [description, setDescription] = useState(todo ? todo.description : "");
 
   const handleSubmit = () => {
     onSubmit(title, description);
@@ -24,15 +26,11 @@ const TodoForm: React.FC<TodoFormProps> = ({ onSubmit }) => {
   };
   return (
     <IonCard>
-      <IonCardHeader>
-        <IonCardTitle>Créer votre tâche</IonCardTitle>
-      </IonCardHeader>
       <IonCardContent>
         <IonInput
           label="Titre"
           value={title}
           labelPlacement="start"
-          clearOnEdit={true}
           placeholder="Ajouter un titre"
           onIonInput={(e) => setTitle(e.detail.value ?? "")}
         ></IonInput>
@@ -42,7 +40,6 @@ const TodoForm: React.FC<TodoFormProps> = ({ onSubmit }) => {
           labelPlacement="floating"
           placeholder="Ajouter une description (Optionnel)"
           onIonInput={(e) => setDescription(e.detail.value ?? "")}
-          clearOnEdit={true}
         ></IonTextarea>
         <IonButton
           className="ion-margin-top"
@@ -51,7 +48,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ onSubmit }) => {
           shape="round"
           onClick={handleSubmit}
         >
-          Enregistrer la tâche
+          {todo ? "Enregistrer les modifications" : "Ajouter la tâche"}
         </IonButton>
       </IonCardContent>
     </IonCard>

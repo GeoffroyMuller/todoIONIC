@@ -19,6 +19,17 @@ export function useTodos() {
     setTodos((prev) => prev.map((t) => (t.id === id ? updated : t)));
   };
 
+  const editTodo = async (todo: Todo) => {
+    const updated = await updateTodo({
+      id: todo.id,
+      title: todo.title,
+      description: todo.description,
+    });
+    if (!updated) return;
+
+    setTodos((prev) => prev.map((t) => (t.id === todo.id ? updated : t)));
+  };
+
   const addNewTodo = async (title: string, description?: string) => {
     const newTodo = await addTodo({
       title,
@@ -48,5 +59,13 @@ export function useTodos() {
     loadTodos();
   }, []);
 
-  return { todos, loading, refreshTodos, toggleTodo, addNewTodo, deleteTodoById };
+  return {
+    todos,
+    loading,
+    refreshTodos,
+    toggleTodo,
+    addNewTodo,
+    deleteTodoById,
+    editTodo,
+  };
 }

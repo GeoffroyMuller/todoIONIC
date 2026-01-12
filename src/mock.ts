@@ -27,7 +27,7 @@ export const fetchTodoById = (id: number): Promise<Todo | undefined> => {
   return simulateDelay(todo ? { ...todo } : undefined);
 };
 
-export const updateTodo = (data: Todo): Promise<Todo | undefined> => {
+export const updateTodo = (data: Pick<Todo, "id" | "title" | "description">): Promise<Todo | undefined> => {
   dataTodosMock = dataTodosMock.map((t) =>
     t.id === data.id ? { ...t, ...data } : t
   );
