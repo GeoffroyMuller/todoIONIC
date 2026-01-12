@@ -26,6 +26,9 @@ const TodoForm: React.FC<TodoFormProps> = ({ todo, onSubmit }) => {
   };
   return (
     <IonCard>
+      <IonCardHeader>
+        <IonCardTitle>{todo ? "Modifier la tâche" : "Ajouter une tâche"}</IonCardTitle>
+      </IonCardHeader>
       <IonCardContent>
         <IonInput
           label="Titre"

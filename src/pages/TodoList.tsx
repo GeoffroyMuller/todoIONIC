@@ -1,5 +1,4 @@
 import {
-  IonButton,
   IonContent,
   IonFab,
   IonFabButton,
@@ -21,7 +20,8 @@ import { add } from "ionicons/icons";
 import { useState } from "react";
 
 const TodoList: React.FC = () => {
-  const { todos, loading, toggleTodo, addNewTodo, editTodo } = useTodos();
+  const { todos, loading, toggleTodo, addNewTodo, editTodo, deleteTodoById } =
+    useTodos();
   const [activeTodo, setActiveTodo] = useState<Todo | null>(null);
 
   const [present, dismiss] = useIonModal(TodoModal, {
@@ -38,7 +38,9 @@ const TodoList: React.FC = () => {
           OverlayEventDetail<Pick<Todo, "title" | "description">>
         >
       ) => {
-        if (event.detail.role === "confirm") {
+        if (todo && event.detail.role === "delete") {
+          deleteTodoById(todo.id);
+        } else if (event.detail.role === "confirm") {
           if (todo) {
             const updatedTodo = { ...todo, ...event.detail.data };
             editTodo(updatedTodo);

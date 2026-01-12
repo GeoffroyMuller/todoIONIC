@@ -35,7 +35,7 @@ const TodoCard: React.FC<TodoCardProps> = ({ todo, onToggle, onEdit }) => {
             justifyContent: "space-between",
           }}
         >
-          <IonCardTitle>{todo.id} {todo.title}</IonCardTitle>
+          <IonCardTitle>{todo.title}</IonCardTitle>
           <div
             style={{
               height: "32px",

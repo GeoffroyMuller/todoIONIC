@@ -14,8 +14,8 @@ import { Todo } from "../types/todo.type";
 interface TodoModalProps {
   todo?: Todo;
   onDismiss: (
-    data?: Pick<Todo, "title" | "description"> | null,
-    role?: "confirm" | "cancel"
+    data?: (Pick<Todo, "title" | "description"> & { id?: number }) | null,
+    role?: "confirm" | "cancel" | "delete"
   ) => void;
 }
 
@@ -29,9 +29,18 @@ const TodoModal: React.FC<TodoModalProps> = ({ todo, onDismiss }) => {
               Annuler
             </IonButton>
           </IonButtons>
-          <IonTitle>
-            {todo ? "Modifier la tâche" : "Ajouter une tâche"}
-          </IonTitle>
+          {todo ? (
+            <IonButtons slot="end">
+              <IonButton
+                color="danger"
+                onClick={() => onDismiss(todo, "delete")}
+              >
+                Supprimer
+              </IonButton>
+            </IonButtons>
+          ) : (
+            ""
+          )}
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
