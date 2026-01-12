@@ -1,4 +1,5 @@
 import { Todo } from "./types/todo.type";
+import { generateIncremId } from "./utils";
 
 let dataTodosMock: Todo[] = [
   { id: 1, title: "Apprendre Ionic", done: false, created_at: new Date() },
@@ -18,26 +19,28 @@ const simulateDelay = <T>(data: T, delay = 400): Promise<T> =>
   new Promise((resolve) => setTimeout(() => resolve(data), delay));
 
 export const fetchAllTodos = (): Promise<Todo[]> => {
-  return simulateDelay(dataTodosMock);
+  return simulateDelay([...dataTodosMock]);
 };
 
 export const fetchTodoById = (id: number): Promise<Todo | undefined> => {
   const todo = dataTodosMock.find((t) => t.id === id);
-  return simulateDelay(todo);
+  return simulateDelay(todo ? { ...todo } : undefined);
 };
 
 export const updateTodo = (data: Todo): Promise<Todo | undefined> => {
   dataTodosMock = dataTodosMock.map((t) =>
     t.id === data.id ? { ...t, ...data } : t
   );
-  const res = dataTodosMock.find((d) => d.id === data.id)
-  return simulateDelay(res);
+  const todo = dataTodosMock.find((d) => d.id === data.id);
+  return simulateDelay(todo ? { ...todo } : undefined);
 };
 
 export const addTodo = (data: Omit<Todo, "id">): Promise<Todo> => {
-  const todo: Todo = { ...data, id: Date.now() };
+  const id = generateIncremId(dataTodosMock.map((e) => e.id));
+
+  const todo: Todo = { ...data, id };
   dataTodosMock.push(todo);
-  return simulateDelay(todo);
+  return simulateDelay({ ...todo });
 };
 
 export const deleteTodo = (id: number): Promise<number> => {
