@@ -25,18 +25,18 @@ const TodoModal: React.FC<TodoModalProps> = ({ onDismiss }) => {
         <IonToolbar>
           <IonButtons slot="start">
             <IonButton color="medium" onClick={() => onDismiss(null, "cancel")}>
-              Cancel
+              Annuler
             </IonButton>
           </IonButtons>
-          <IonTitle>Welcome</IonTitle>
+          <IonTitle>Ajouté une tâche</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <IonItem>
-          <TodoForm
-            onSubmit={(title, description) => onDismiss({ title, description }, "confirm")}
-          />
-        </IonItem>
+        <TodoForm
+          onSubmit={(title, description) =>
+            onDismiss({ title, description }, "confirm")
+          }
+        />
       </IonContent>
     </IonPage>
   );

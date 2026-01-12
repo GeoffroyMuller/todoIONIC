@@ -1,7 +1,10 @@
 import {
   IonButton,
   IonContent,
+  IonFab,
+  IonFabButton,
   IonHeader,
+  IonIcon,
   IonPage,
   IonProgressBar,
   IonTitle,
@@ -14,6 +17,7 @@ import { useTodos } from "../composables/useTodos";
 import TodoModal from "../components/TodoModal";
 import { OverlayEventDetail } from "@ionic/core/components";
 import { Todo } from "../types/todo.type";
+import { add } from "ionicons/icons";
 
 const TodoList: React.FC = () => {
   const { todos, loading, toggleTodo, addNewTodo } = useTodos();
@@ -29,7 +33,6 @@ const TodoList: React.FC = () => {
         >
       ) => {
         if (event.detail.role === "confirm") {
-          console.log("hdshjfjsdf", event.detail.role)
           addNewTodo(
             event.detail.data?.title ?? "Sans titre",
             event.detail.data?.description
@@ -46,12 +49,7 @@ const TodoList: React.FC = () => {
           <IonTitle>Tâches</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Tab 1</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+      <IonContent fullscreen className="ion-padding-bottom ion-margin-bottom">
         {loading ? (
           <IonProgressBar type="indeterminate" color="primary"></IonProgressBar>
         ) : (
@@ -59,9 +57,11 @@ const TodoList: React.FC = () => {
             <TodoCard key={todo.id} todo={todo} onToggle={toggleTodo} />
           ))
         )}
-        <IonButton expand="block" onClick={() => openModal()}>
-          Open
-        </IonButton>
+        <IonFab vertical="bottom" horizontal="end" slot="fixed">
+          <IonFabButton onClick={openModal}>
+            <IonIcon icon={add} />
+          </IonFabButton>
+        </IonFab>
       </IonContent>
     </IonPage>
   );
