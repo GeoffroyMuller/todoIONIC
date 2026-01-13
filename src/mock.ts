@@ -2,7 +2,7 @@ import { Todo } from "./types/todo.type";
 import { generateIncremId } from "./utils";
 
 let dataTodosMock: Todo[] = [
-  { id: 1, title: "Apprendre Ionic", done: false, created_at: new Date() },
+  { id: 1, title: "Apprendre Ionic", done: true, created_at: new Date() },
   { id: 2, title: "Créer une todolist", done: true, created_at: new Date() },
   { id: 3, title: "Montrer la todo à Franck", done: false, created_at: new Date() },
   {
