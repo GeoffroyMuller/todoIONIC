@@ -4,10 +4,10 @@ import { generateIncremId } from "./utils";
 let dataTodosMock: Todo[] = [
   { id: 1, title: "Apprendre Ionic", done: false, created_at: new Date() },
   { id: 2, title: "Créer une todolist", done: true, created_at: new Date() },
-  { id: 3, title: "Apprendre Ionic", done: false, created_at: new Date() },
+  { id: 3, title: "Montrer la todo à Franck", done: false, created_at: new Date() },
   {
     id: 4,
-    title: "Créer une todolist",
+    title: "Faire les courses",
     done: true,
     created_at: new Date(),
     description:
