@@ -10,9 +10,9 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, list } from 'ionicons/icons';
+import { list, settings } from 'ionicons/icons';
 
-import Tab2 from './pages/Tab2';
+import Settings from './pages/Settings';
 import TodoList from './pages/TodoList';
 
 /* Core CSS required for Ionic components to work properly */
@@ -55,8 +55,8 @@ const App: React.FC = () => (
           <Route exact path="/todo-list">
             <TodoList />
           </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
+          <Route exact path="/settings">
+            <Settings />
           </Route>
           <Route exact path="/">
             <Redirect to="/todo-list" />
@@ -67,9 +67,9 @@ const App: React.FC = () => (
             <IonIcon aria-hidden="true" icon={list} />
             <IonLabel>Liste</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon aria-hidden="true" icon={ellipse} />
-            <IonLabel>Tab 2</IonLabel>
+          <IonTabButton tab="settings" href="/settings">
+            <IonIcon aria-hidden="true" icon={settings} />
+            <IonLabel>Paramètre</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
